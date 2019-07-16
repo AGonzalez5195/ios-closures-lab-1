@@ -24,8 +24,15 @@ Hello Closures!
 Hello Closures!
 Hello Closures!
 ```
+```
+func applyKTimes(_ k: Int, _ closure: () -> ()) {
+for _ in 1...k {
+closure()
+}
+}
 
-
+applyKTimes(3, {print("Hello Closures!")})
+```
 ## Question 2
 
 Use `filter` to create an array called `multiples` that contains all the multiples of 3 from `numbers` and then print it.
@@ -37,6 +44,12 @@ Input: `let numbers = [1, 2, 3, 4, 6, 8, 9, 3, 12, 11]`
 
 Expected values: `multiples = [3, 6, 9, 3, 12]`
 
+```
+let multiplesOfThree = numbers.filter({a in a % 3 == 0})
+
+print(multiplesOfThree)
+```
+The .filter knows that it's supposed to return a boolean, so the -> bool & return portions are unnecessary.
 
 ## Question 3
 
@@ -46,6 +59,14 @@ Example:
 Input: `let numbers = [4, 7, 1, 9, 6, 5, 6, 9]`
 
 Output: `9`
+
+```
+let numbers = [4, 7, 1, 9, 6, 5, 6, 9]
+
+let largestNumber = numbers.reduce(0,{a, b in return a > b ? a : b})
+
+print(largestNumber)
+```
 
 
 ## Question 4
@@ -57,16 +78,26 @@ Input: `let strings = ["We", "Heart", "Swift"]`
 
 Output: `"We Heart Swift"`
 
+```
+let strings = ["We", "Heart", "Swift"]
 
+
+let newString = strings.reduce("", { $0 + $1 + " "})
+
+print(newString)
+
+
+```
 ## Question 5
 
 `let cities = ["Shanghai", "Beijing", "Delhi", "Lagos", "Tianjin", "Karachi", "Karachi", "Tokyo", "Guangzhou", "Mumbai", "Moscow", "São Paulo"]`
 
 a. Use `sortedBy` to sort `cities` in alphabetical order.
-
+``let sortedByAlphabetical = cities.sorted()``
 b. Use `sortedBy` to sort `cities` alphabetical order of the second character of the city name.
-
+``let sortedBySecondCharacter = cities.sorted(by:{ $0.dropFirst() < $1.dropFirst()})``
 c. Use `sortedBy` to sort `cities` in order of the length of the city name.
+``let sortedByLengthOfWord = cities.sorted(by:{ $0.count < $1.count})``
 
 
 ## Question 6
@@ -74,9 +105,21 @@ c. Use `sortedBy` to sort `cities` in order of the length of the city name.
 `let citiesWithPopulation: [(String, Int)] = [("Shanghai", 24256800), ("Beijing", 21516000), ("Delhi", 16787941), ("Lagos", 16060303), ("Tianjin", 15200000), ("Karachi", 14910352), ("Karachi", 14160467), ("Tokyo", 13513734), ("Guangzhou", 13080500), ("Mumbai", 12442373), ("Moscow", 12380664), ("São Paulo", 12038175)]`
 
 a. Use `sortedBy` to sort `citiesWithPopulation` in ascending order of population.
+``let sortedByCitiesWithPopulation = citiesWithPopulation.sorted(by: {$0.1 < $1.1})``
 
 b. Use `sortedBy` to sort `citiesWithPopulation` in reverse alphabetical order of the last character in the city name.
+```
+let sortedByCitiesWithPopulation = citiesWithPopulation.sorted(by: {a, b in
+let lastindexA = a.0.endIndex
+let lastindexB = b.0.endIndex
+let indexBeforeEndA = a.0.index(before:lastindexA)
+let indexBeforeEndB = b.0.index(before:lastindexB)
+return a.0[indexBeforeEndA] > b.0[indexBeforeEndB]})
 
+
+//let sortedByLastChar = citiesWithPopulation.sorted{$0.0.suffix(1) > $1.0.suffix(1)}
+//Suffix works by measuring the distance from the last index. A value of 1 means 1 before the last index, which is also the last actual character in the word.
+```
 
 ## Question 7
 
@@ -95,6 +138,16 @@ numbers = [1, 2, 3, 5, 4, 6]
 // 2, 3 and 5 have 2
 // 4 has 3 divisors
 // 6 has 4 divisors
+// 7 has 2 divisors
+// 8 has 4 divisors
+// 9 has 3 divisors
+// 10 has 4 divisors
+// 11 has 1 divisors
+// 12 has 6 divisors
+// 13 has 1 divisors
+// 14 has 4 divisors
+// 15 has 1 divisors
+
 
 // [1, 5, 2, 3, 4, 6] would also have been a valid solution
 ```
@@ -104,7 +157,10 @@ numbers = [1, 2, 3, 5, 4, 6]
 
 Find the sum of the squares of all the odd numbers from `numbers` and then print it.
 
-`var numbers = [1, 2, 3, 4, 5, 6]`
+
+`var numbers = [1, 2, 3, 4, 5, 6]` 
+
+var sumOfSquares = numbers.map{ $0 * $0}
 
 a. Write code that removes all the odd numbers from the array.
 
